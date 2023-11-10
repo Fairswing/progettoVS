@@ -123,9 +123,10 @@ int main(int argc, char* argv[])
 	struct tm tm{};
 	localtime_s(&tm, &t);
 	char logName[100];
-	strftime(logName, sizeof(logName), "logs/log_%Y-%m-%d_%H-%M-%S.log", &tm);
+	strftime(logName, sizeof(logName), "./logs/log_%Y-%m-%d_%H-%M-%S.log", &tm);
+	errno_t fopensError;
 
-	fopen_s(&logfp, logName, "wb");
+	fopensError = fopen_s(&logfp, logName, "wb");
 
 	if (logfp != NULL) {
 		HANDLE semaphore = CreateSemaphore(NULL, 1, 1, L"logsWritingSemaphore");
@@ -154,7 +155,7 @@ int main(int argc, char* argv[])
 		}
 	}
 	else
-		printf("file log non aperto per motivi ignoti!\n");
+		perror("fopen_s()");
 	
 	printf("Errore interno del server!\n");
 	fclose(logfp);
