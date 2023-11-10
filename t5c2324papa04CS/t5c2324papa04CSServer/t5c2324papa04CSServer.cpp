@@ -128,7 +128,7 @@ int main(int argc, char* argv[])
 	struct stat st = { 0 };
 
 	if (stat("logs", &st) == -1)
-		if (mkdir("logs") == -1) {	//se non riesco a creare la cartella
+		if (_mkdir("logs") == -1) {	//se non riesco a creare la cartella
 			perror("mkdir()");
 
 			//chiudo il socket e spengo il server
