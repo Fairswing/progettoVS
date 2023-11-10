@@ -3,7 +3,7 @@ nome file		:t5c2324papa04CSclient.c
 nome progetto	:t5c2324papa04CSclient.vcxproj
 nome soluzione	:t5c2324papa04CS.sln
 autore			:papa cesare
-data			:3/11/2023
+data			:10/11/2023
 scopo			:primi passi con libreria winsock (lato client)
 note tecniche	:
 
