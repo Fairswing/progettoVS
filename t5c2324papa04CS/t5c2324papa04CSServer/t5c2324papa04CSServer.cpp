@@ -26,6 +26,8 @@ pseudocodice	:
 #include <process.h>
 #include <Windows.h>
 #include <time.h>
+#include <sys/stat.h> //libreria aggiunta per il controllo dell'esistenza della cartella logs 
+#include <direct.h>	//libreria aggiunta per la creazione della cartella se inesistente
 #include "../t5c2324papa04CS.h"
 
 #pragma comment(lib, "Ws2_32.lib")
@@ -120,9 +122,22 @@ int main(int argc, char* argv[])
 	printf("Il server e' in ascolto!\n");
 
 	time_t t = time(NULL);
-	struct tm tm{};
+	struct tm tm {};
 	localtime_s(&tm, &t);
 	char logName[100];
+	struct stat st = { 0 };
+
+	if (stat("logs", &st) == -1)
+		if (mkdir("logs") == -1) {	//se non riesco a creare la cartella
+			perror("mkdir()");
+
+			//chiudo il socket e spengo il server
+			freeaddrinfo(result);
+			closesocket(ListenSocket);
+			WSACleanup();
+			return -1;
+		}
+
 	strftime(logName, sizeof(logName), "./logs/log_%Y-%m-%d_%H-%M-%S.log", &tm);
 	errno_t fopensError;
 
@@ -153,12 +168,13 @@ int main(int argc, char* argv[])
 
 			CloseHandle(semaphore);
 		}
+
+		fclose(logfp);
 	}
 	else
 		perror("fopen_s()");
-	
+
 	printf("Errore interno del server!\n");
-	fclose(logfp);
 	freeaddrinfo(result);
 	closesocket(ListenSocket);
 	WSACleanup();
