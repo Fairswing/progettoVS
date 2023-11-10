@@ -83,7 +83,7 @@ char rotateRight(char num, unsigned char rotation)
 void encryption_algorithm(char* clearText) {
     int i, j;
 
-    for (i = 0, j = 0; i < (int)sizeof(clearText); i++, j++) { //scorro la chiave di encriptazione per sommare diversi numeri alle diverse lettere
+    for (i = 0, j = 0; i < (int)sizeof(clearText) || clearText[i] != 0; i++, j++) { //scorro la chiave di encriptazione per sommare diversi numeri alle diverse lettere
         if (j == ENCRYPTION_KEY_LENGHT)
             j = 0;
         clearText[i] = rotateRight(clearText[i], ENCRYPTION_KEY[j]);
@@ -93,7 +93,7 @@ void encryption_algorithm(char* clearText) {
 void decryption_algorithm(char* clearText) {
     int i, j;
 
-    for (i = 0, j = 0; i < (int)sizeof(clearText); i++, j++) {   ////scorro la chiave di encriptazione per sottrarre diversi numeri alle diverse lettere
+    for (i = 0, j = 0; i < (int)sizeof(clearText) || clearText[i] != 0; i++, j++) {   ////scorro la chiave di encriptazione per sottrarre diversi numeri alle diverse lettere
         if (j == ENCRYPTION_KEY_LENGHT)
             j = 0;
         clearText[i] = rotateLeft(clearText[i], ENCRYPTION_KEY[j]);
