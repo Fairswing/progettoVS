@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
 	struct tm tm{};
 	localtime_s(&tm, &t);
 	char logName[100];
-	strftime(logName, sizeof(logName), "logs/log_%Y-%m-%d_%H-%M-%S.txt", &tm);
+	strftime(logName, sizeof(logName), "logs/log_%Y-%m-%d_%H-%M-%S.log", &tm);
 
 	fopen_s(&logfp, logName, "wb");
 
