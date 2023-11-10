@@ -1,6 +1,0 @@
-il server e' stato contattato dal client TCP con ip: 127.0.0.1
-File ciao.dat richiesto dal client trovato!
-Chiusura connessione con il client 127.0.0.1
-il server e' stato contattato dal client TCP con ip: 127.0.0.1
-File ciao.dat richiesto dal client trovato!
-Chiusura connessione con il client 127.0.0.1
