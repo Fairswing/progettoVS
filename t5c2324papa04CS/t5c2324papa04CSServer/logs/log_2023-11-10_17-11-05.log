@@ -1,0 +1,3 @@
+il server e' stato contattato dal client TCP con ip: 127.0.0.1
+Il client con ip [127.0.0.1] sta cercando di leggere dei file in posizioni anomale!
+Chiusura connessione con il client 127.0.0.1
