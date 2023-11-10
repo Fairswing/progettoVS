@@ -153,6 +153,8 @@ int main(int argc, char* argv[])
 			CloseHandle(semaphore);
 		}
 	}
+	else
+		printf("file log non aperto per motivi ignoti!\n");
 	
 	printf("Errore interno del server!\n");
 	fclose(logfp);
@@ -223,11 +225,15 @@ void connection_handling(void* newConnectionData) {
 
 				decryption_algorithm(recvbuf);
 
-				if (iResult > 0 && recvbuf[0] != '.' && recvbuf[0] != '/') {
+				char* ptrStrUtile = NULL;
+				char* ptrStrComodo = NULL;
+				ptrStrUtile = strtok_s(recvbuf, "/", &ptrStrComodo);
+
+				if (iResult > 0 && recvbuf[0] != '.' && recvbuf[0] != '/' && ptrStrComodo == NULL) {
 					FILE* fp; //creo il puntatore del file da ricercare
 					char fileToSend[DEFAULT_BUFLEN_SMALL];
 
-					sprintf_s(fileToSend, sizeof(recvbuf), "%s/%s", "stories", recvbuf);
+					sprintf_s(fileToSend, sizeof(recvbuf), "stories/%s", recvbuf);
 
 					fopen_s(&fp, fileToSend, "rb");
 
