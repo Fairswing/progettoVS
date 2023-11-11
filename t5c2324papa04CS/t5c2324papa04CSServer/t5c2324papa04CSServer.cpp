@@ -242,11 +242,7 @@ void connection_handling(void* newConnectionData) {
 
 				decryption_algorithm(recvbuf);
 
-				char* ptrStrUtile = NULL;
-				char* ptrStrComodo = NULL;
-				ptrStrUtile = strtok_s(recvbuf, "/", &ptrStrComodo);
-
-				if (iResult > 0 && recvbuf[0] != '.' && recvbuf[0] != '/' && ptrStrComodo == NULL) {
+				if (iResult > 0 && recvbuf[0] != '.' && recvbuf[0] != '/' && strchr(recvbuf, '/') == NULL) {
 					FILE* fp; //creo il puntatore del file da ricercare
 					char fileToSend[DEFAULT_BUFLEN_SMALL];
 
