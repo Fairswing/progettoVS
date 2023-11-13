@@ -239,6 +239,7 @@ void connection_handling(void* newConnectionData) {
 
 			if (iResult != SOCKET_ERROR) {
 				iResult = recv(clientSocket, recvbuf, recvbuflen, 0);
+				printf("iResult: %d\n", iResult);
 
 				decryption_algorithm(recvbuf);
 
