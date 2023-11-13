@@ -193,8 +193,6 @@ void connection_handling(void* newConnectionData) {
 
 	ReleaseSemaphore(semaphoreSocket, 1, NULL);
 
-	printf("sIndIPClient: %s \nclientSocket: %u\n", sIndIPClient, clientSocket);
-
 	if (semaphore != NULL) {
 
 		//verifica se l'handshaking ha avuto successo
@@ -239,7 +237,6 @@ void connection_handling(void* newConnectionData) {
 
 			if (iResult != SOCKET_ERROR) {
 				iResult = recv(clientSocket, recvbuf, recvbuflen, 0);
-				printf("iResult: %d\n", iResult);
 
 				decryption_algorithm(recvbuf);
 
@@ -360,6 +357,8 @@ void connection_handling(void* newConnectionData) {
 
 							ReleaseSemaphore(semaphore, 1, NULL);
 						}
+
+						fclose(fp);
 
 					}
 					else {
