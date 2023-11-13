@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	client_data newConnectionData[NMAX_THREADS];
+	client_data newConnectionData;
 
 	printf("Il server e' in ascolto!\n");
 
@@ -145,28 +145,23 @@ int main(int argc, char* argv[])
 
 	if (logfp != NULL) {
 		HANDLE semaphore = CreateSemaphore(NULL, 1, 1, L"logsWritingSemaphore");
+		HANDLE semaphoreSocket = CreateSemaphore(NULL, 1, 1, L"socketCopySemaphore");
 
-		if (semaphore != NULL) {
-			for (int i = 0; true; i++) {
+		if (semaphore != NULL && semaphoreSocket != NULL) {
+			while (true) {
 
-				if (i != NMAX_THREADS) {
-					newConnectionData[i].ClientSocket = INVALID_SOCKET;
+				// Accept a client socket ossia effettuazione dell'handsaking
+				//ClientSocket = accept(ListenSocket, NULL, NULL);	
+				newConnectionData.addrsize = sizeof(newConnectionData.addr);
+				//printf("Server in attesa di una connessione\n");
+				newConnectionData.ClientSocket = accept(ListenSocket, (SOCKADDR*)&newConnectionData.addr, &newConnectionData.addrsize);	//inserisce all'interno di addr i dati del client
 
-					// Accept a client socket ossia effettuazione dell'handsaking
-					//ClientSocket = accept(ListenSocket, NULL, NULL);	
-					newConnectionData[i].addrsize = sizeof(newConnectionData[i].addr);
-					//printf("Server in attesa di una connessione\n");
-					newConnectionData[i].ClientSocket = accept(ListenSocket, (SOCKADDR*)&newConnectionData[i].addr, &newConnectionData[i].addrsize);	//inserisce all'interno di addr i dati del client
-
-					_beginthread(connection_handling, 0, &newConnectionData[i]);
-				}
-				else
-					_WAIT_CHILD();
-
+				_beginthread(connection_handling, 0, &newConnectionData);
 
 			}
 
 			CloseHandle(semaphore);
+			CloseHandle(semaphoreSocket);
 		}
 
 		fclose(logfp);
@@ -184,18 +179,23 @@ int main(int argc, char* argv[])
 void connection_handling(void* newConnectionData) {
 	int iResult;
 	struct addrinfo* result = NULL;
+	char bufferLog[100];
+	char sIndIPClient[16];	//per memorizzare ip client
+	HANDLE semaphore = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE, L"logsWritingSemaphore");
+	HANDLE semaphoreSocket = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE, L"socketCopySemaphore");
+
+	// copio i valori di newConnection socket all'interno di una variabile locale
+	WaitForSingleObject(semaphoreSocket, INFINITE);
+
 	SOCKET clientSocket = static_cast<clientData*>(newConnectionData)->ClientSocket;
 	SOCKADDR_IN addr = static_cast<clientData*>(newConnectionData)->addr;
-	char bufferLog[100];
-	HANDLE semaphore = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE, L"logsWritingSemaphore");
+	inet_ntop(AF_INET, &addr.sin_addr, sIndIPClient, sizeof(sIndIPClient));
+
+	ReleaseSemaphore(semaphoreSocket, 1, NULL);
+
+	printf("sIndIPClient: %s \nclientSocket: %u\n", sIndIPClient, clientSocket);
 
 	if (semaphore != NULL) {
-		//printf("Inizio thread con clientSocket %u\n", clientSocket);
-	//printf("INVALID_SOCKET %u\n", INVALID_SOCKET);
-
-		char sIndIPClient[16];	//per memorizzare ip client
-
-		inet_ntop(AF_INET, &addr.sin_addr, sIndIPClient, sizeof(sIndIPClient));
 
 		//verifica se l'handshaking ha avuto successo
 		if (clientSocket == INVALID_SOCKET) {
