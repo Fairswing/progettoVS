@@ -127,7 +127,7 @@ int main(int argc, char* argv[])
 	char logName[100];
 	struct stat st = { 0 };
 
-	if (stat("logs", &st) == -1)
+	if (stat("C:/Temp/logs", &st) == -1)
 		if (_mkdir("logs") == -1) {	//se non riesco a creare la cartella
 			perror("mkdir()");
 
@@ -138,7 +138,7 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 
-	strftime(logName, sizeof(logName), "./logs/log_%Y-%m-%d_%H-%M-%S.log", &tm);
+	strftime(logName, sizeof(logName), "C:/Temp/logs/log_%Y-%m-%d_%H-%M-%S.log", &tm);
 	errno_t fopensError;
 
 	fopensError = fopen_s(&logfp, logName, "wb");
