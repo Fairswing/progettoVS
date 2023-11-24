@@ -128,7 +128,8 @@ int main(int argc, char* argv[])
 	struct stat st = { 0 };
 
 	if (stat("C:/Temp/logs", &st) == -1)
-		if (_mkdir("logs") == -1) {	//se non riesco a creare la cartella
+	{
+		if (_mkdir("C:/Temp") == -1) {	//se non riesco a creare la cartella
 			perror("mkdir()");
 
 			//chiudo il socket e spengo il server
@@ -137,6 +138,17 @@ int main(int argc, char* argv[])
 			WSACleanup();
 			return -1;
 		}
+		if (_mkdir("C:/Temp/logs") == -1) {	//se non riesco a creare la cartella
+			perror("mkdir()");
+
+			//chiudo il socket e spengo il server
+			freeaddrinfo(result);
+			closesocket(ListenSocket);
+			WSACleanup();
+			return -1;
+		}
+	}
+		
 
 	strftime(logName, sizeof(logName), "C:/Temp/logs/log_%Y-%m-%d_%H-%M-%S.log", &tm);
 	errno_t fopensError;
