@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementi di soluzione", "El
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "t5c2324papa04CSClient", "t5c2324papa04CSClient\t5c2324papa04CSClient.vcxproj", "{7BC398EA-ED3D-4369-9981-26AF9A145152}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "t5c2324papa04CSMSI", "t5c2324papa04CSMSI\t5c2324papa04CSMSI.vdproj", "{0013BF24-D7F8-4823-A024-703FF860C768}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -36,6 +38,14 @@ Global
 		{7BC398EA-ED3D-4369-9981-26AF9A145152}.Release|x64.Build.0 = Release|x64
 		{7BC398EA-ED3D-4369-9981-26AF9A145152}.Release|x86.ActiveCfg = Release|Win32
 		{7BC398EA-ED3D-4369-9981-26AF9A145152}.Release|x86.Build.0 = Release|Win32
+		{0013BF24-D7F8-4823-A024-703FF860C768}.Debug|x64.ActiveCfg = Debug
+		{0013BF24-D7F8-4823-A024-703FF860C768}.Debug|x64.Build.0 = Debug
+		{0013BF24-D7F8-4823-A024-703FF860C768}.Debug|x86.ActiveCfg = Debug
+		{0013BF24-D7F8-4823-A024-703FF860C768}.Debug|x86.Build.0 = Debug
+		{0013BF24-D7F8-4823-A024-703FF860C768}.Release|x64.ActiveCfg = Release
+		{0013BF24-D7F8-4823-A024-703FF860C768}.Release|x64.Build.0 = Release
+		{0013BF24-D7F8-4823-A024-703FF860C768}.Release|x86.ActiveCfg = Release
+		{0013BF24-D7F8-4823-A024-703FF860C768}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
